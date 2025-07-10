@@ -20,6 +20,7 @@ This is a small project I made for this technical assessment. The idea was to bu
 2. Clone this repo, checkout to the master branch and go into the `realtime-ai-chat` folder:
    ```bash
    git clone https://github.com/IT21324406/Realtime-AI-Chatbot-AIGP.git
+   checkout to master branch
    cd realtime-ai-chat
    ```
 3. Install the dependencies:
