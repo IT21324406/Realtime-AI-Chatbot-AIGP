@@ -42,6 +42,15 @@ This is a small project I made for this technical assessment. The idea was to bu
 - Check the transcript area to see the conversation history.
 - Use the clear button to reset everything.
 
+## Technologies & APIs Used
+- React - For building the user interface and managing application state.
+- Vite - For fast development server and build tooling.
+- Web Speech API (SpeechRecognition) - To transcribe the user’s speech to text in real time.
+- Google Gemini API - To generate AI responses based on user input.
+- Web Speech API (SpeechSynthesis) - To convert the AI’s text responses into spoken audio.
+- JavaScript - For all application logic and browser interactions.
+- CSS - For styling the application.
+
 ## Main Parts of the App
 - `App.jsx`: Main logic and state.
 - `components/ChatBox.jsx`: The chat area and controls.
@@ -50,6 +59,8 @@ This is a small project I made for this technical assessment. The idea was to bu
 - `utils/speak.js`: Makes the AI talk (TTS).
 
 ## Limitations
-- Everything is browser-only—no real speaker separation, just labels.
+- No real speaker diarization (only labels user/AI based on source, not voice).
+- AI responses are not transcribed from audio—only the AI’s text is shown (But it transcription happens for the user from the mic).
+- No backend/server; everything runs in the browser.
 
 Thank you for checking it out!
