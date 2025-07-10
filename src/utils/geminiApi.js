@@ -1,37 +1,48 @@
-const GEMINI_URL =
-  "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+// Gemini API integration
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
 
-export async function getGeminiResponse(prompt) {
-  const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-
+export async function sendToGemini(userMessage) {
   try {
-    const res = await fetch(`${GEMINI_URL}?key=${apiKey}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-      }),
+        contents: [{
+          parts: [{
+            text: `You are a helpful AI assistant. Respond to the user's message in a conversational, natural way. Keep responses concise but informative. Format responses with proper line breaks and bullet points when appropriate.
+
+User: ${userMessage}`
+          }]
+        }]
+      })
     });
 
-    const data = await res.json();
-    console.log("Gemini response:", data);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
-    if (
-      data &&
-      data.candidates &&
-      data.candidates.length > 0 &&
-      data.candidates[0].content &&
-      data.candidates[0].content.parts &&
-      data.candidates[0].content.parts.length > 0
-    ) {
-      return data.candidates[0].content.parts[0].text;
-    } else if (data.error) {
-      return `Error: ${data.error.message}`;
+    const data = await response.json();
+    
+    if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+      let aiResponse = data.candidates[0].content.parts[0].text;
+      
+      // Clean up the response
+      aiResponse = aiResponse.trim();
+      
+      // Remove markdown formatting if present
+      aiResponse = aiResponse.replace(/\*\*(.*?)\*\*/g, '$1'); // Remove bold
+      aiResponse = aiResponse.replace(/\*(.*?)\*/g, '$1'); // Remove italic
+      aiResponse = aiResponse.replace(/`(.*?)`/g, '$1'); // Remove code blocks
+      
+      return aiResponse;
     } else {
-      return "No valid response from Gemini.";
+      throw new Error('Invalid response format from Gemini API');
     }
   } catch (error) {
-    console.error("Gemini API error:", error);
-    return "Failed to contact Gemini.";
+    console.error('Error calling Gemini API:', error);
+    throw error;
   }
 }
