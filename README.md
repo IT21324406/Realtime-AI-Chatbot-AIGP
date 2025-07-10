@@ -17,7 +17,7 @@ This is a small project I made for this technical assessment. The idea was to bu
 
 ## How to Run It
 1. Make sure you have Node.js and npm installed. 
-2. Clone this repo, checkout to the dev-modifications branch and go into the `realtime-ai-chat` folder:
+2. Clone this repo, checkout to the master branch and go into the `realtime-ai-chat` folder:
    ```bash
    git clone https://github.com/IT21324406/Realtime-AI-Chatbot-AIGP.git
    cd realtime-ai-chat
